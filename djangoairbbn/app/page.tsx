@@ -1,10 +1,8 @@
-import Image from "next/image";
-
+import Categories from "./components/Categories"
 export default function Home() {
   return (
-      <main className="">
-        DjangoAirBnb
-        <h2 className="text-airbnb">Welcome to DjangoAirBnb</h2>
+      <main className="max-w-[1500px] mx-auto px-6">
+        <Categories/>
       </main>
     
   );
