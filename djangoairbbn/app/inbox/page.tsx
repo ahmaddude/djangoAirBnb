@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Conversation from "../components/inbox/conversations";
 
 const InboxPage=()=>{
