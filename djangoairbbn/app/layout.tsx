@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/navbar/navbar";
 import LoginModal from "./components/modals/LoginModal";
+import SignupModal from "./components/modals/SignupModal";
 
 
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </div>
         <LoginModal/>
+        <SignupModal/>
         
         </body>
     </html>
