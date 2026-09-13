@@ -53,13 +53,13 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_LOGIN_METHODS={'email'}
 ACCOUNT_EMAIL_VERIFICATION='none'
 
-REST_FRAMCEWORK={
+REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES':(
-    'rest_framework_simplejwt.authentication.JWTauthentication',
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 
     'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework_simplejwt.permissions.IsAuthenticated'
+        'rest_framework.permissions.IsAuthenticated',
     )
 }
 
@@ -174,8 +174,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
-
+MEDIA_URL='media/'
+MEDIA_ROOT=BASE_DIR / 'media'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
