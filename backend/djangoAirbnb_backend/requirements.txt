@@ -10,3 +10,5 @@ djangorestframework-simplejwt
 pillow
 channels
 daphne
+django-storages
+boto3
