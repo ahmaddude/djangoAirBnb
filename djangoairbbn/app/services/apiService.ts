@@ -10,15 +10,20 @@ const apiService={
                     'Content-Type':'application/json'
                 }
             })
-             .then(response =>response.json())
-             .then((json)=>{
-                console.log('Response:',json);
-
-                resolve(json);
+            .then(async response => {
+                const text = await response.text();
+                try {
+                    const json = JSON.parse(text);
+                    console.log('Response:', json);
+                    resolve(json);
+                } catch {
+                    console.log('Non-JSON response:', text);
+                    resolve({ error: text });
+                }
              })
-             .catch((error=>{
+             .catch(error => {
                 reject(error);
-             }))
+             })
         })
     },
 

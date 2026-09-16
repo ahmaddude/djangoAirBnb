@@ -57,7 +57,8 @@ CORS_ALLOW_ALL_ORIGINS=True
 
 REST_AUTH={
     'USE_JWT':True,
-    'JWT_AUTH_HTTPONLY':False
+    'JWT_AUTH_HTTPONLY':False,
+    'REGISTER_SERIALIZER': 'useraccount.serializers.RegisterSerializer',
 }
 
 
@@ -77,6 +78,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'corsheaders',

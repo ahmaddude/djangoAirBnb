@@ -36,7 +36,7 @@ const UserNav=()=>{
                     }
                     />
                     <MenuLink
-                    label='sign in'
+                    label='sign up'
                     onClick={() => {
                             setIsOpen(false);
                             signupModal.open()
