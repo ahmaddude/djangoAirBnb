@@ -4,7 +4,6 @@ import {useState} from "react";
 import MenuLink from "./MenuLink";
 import LogoutButton from "../LogoutButton"
 import useLoginModal from "@/app/hooks/useLoginModal";
-import SignupModal from "../modals/SignupModal";
 import useSignupModal from "@/app/hooks/useSignupModal";
 
 interface UserNavProps{

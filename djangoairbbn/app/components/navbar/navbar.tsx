@@ -8,7 +8,7 @@ const Navbar=async ()=>{
     const userId=await getUserId();
     return(
         <nav className="w-full fixed top-0 left-0 py-6 border-b bg-white z-10 ">
-            <div className="max-w-[1500px] mx-auto px-6">
+            <div className="max-w-375 mx-auto px-6">
                 <div className="flex justify-between items-center">
                     <Link href="/">
                     <Image alt="logo" src="/logo.png"
@@ -21,7 +21,9 @@ const Navbar=async ()=>{
                         <SearchFilters/>
                     </div>
                     <div className='flex items-center space-x-6'>
-                        <AddPropertyButton/>
+                        <AddPropertyButton
+                        userId={userId}
+                        />
 
                         <UserNav
                         userId={userId}
