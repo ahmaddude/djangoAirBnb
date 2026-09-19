@@ -1,4 +1,6 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer as BaseRegisterSerializer
+from .models import User
+from rest_framework import serializers
 
 
 class RegisterSerializer(BaseRegisterSerializer):
@@ -12,3 +14,10 @@ class RegisterSerializer(BaseRegisterSerializer):
 
     def validate_username(self, username):
         return None
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields=(
+            'id','name','avatar_url'
+        )

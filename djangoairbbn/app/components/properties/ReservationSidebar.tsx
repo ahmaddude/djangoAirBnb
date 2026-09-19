@@ -1,7 +1,18 @@
-const ReservationSidebar = () => {
+export type Property={
+    id:string;
+    price_per_night: number;
+}
+
+interface ReservationSidebarProps {
+    property:Property
+}
+
+const ReservationSidebar:React.FC<ReservationSidebarProps>= ({
+    property
+}) => {
     return(
         <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl">
-            <h2 className="mb-5 text-2xl">$200 per night</h2>
+            <h2 className="mb-5 text-2xl">${property.price_per_night} per night</h2>
 
             <div className="mb-6 p-3 border border-gray-400 rounded-xl">
                 <label className="block font-bold text-xs">Guests</label>
@@ -18,8 +29,8 @@ const ReservationSidebar = () => {
             </div>
 
             <div className="mb-4 flex justify-between algin-center">
-                <p>$200 * 4 nights</p>
-                <p>$800</p>
+                <p>${property.price_per_night} * 4 nights</p>
+                <p>${property.price_per_night}*4</p>
             </div>
 
             <div className="mb-4 flex justify-between algin-center">
@@ -30,7 +41,7 @@ const ReservationSidebar = () => {
 
             <div className="mt-4 font-bold flex justify-between algin-center">
                 <p>Total</p>
-                <p>$840</p>
+                <p>$ {property.price_per_night*4}</p>
             </div>
         </aside>
     )
