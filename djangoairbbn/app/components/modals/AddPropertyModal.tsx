@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 
 const AddPropertyModal=()=>{
     const [currentStep,setCurrentStep]=useState(1);
+    const [errors, setErrors]=useState<string[]>([]);
     const [dataCategory,setDataCategory]=useState('');
     const [dataTitle,setDataTitle]=useState('');
     const [dataDescription,setDataDescription]=useState('');
@@ -57,7 +58,7 @@ const AddPropertyModal=()=>{
             formData.append('category',dataCategory);
             formData.append('title',dataTitle);
             formData.append('description',dataDescription);
-            formData.append('price',dataPrice);
+            formData.append('price_per_night',dataPrice);
             formData.append('image',dataImage);
             formData.append('country',dataCountry.label);
             formData.append('country_code',dataCountry.value);
@@ -75,6 +76,11 @@ const AddPropertyModal=()=>{
                 addPropertyModal.close();
             }else{
                 console.log('Error :(')
+
+                const tmpErrors: string[]= Object.values(response).map((error:any)=>{
+                    return error;
+                })
+                setErrors(tmpErrors)
             }
         }
     }
@@ -219,6 +225,18 @@ const AddPropertyModal=()=>{
                             )}
 
                         </div>
+
+                        {errors.map((error,index)=>{
+                            return(
+                                <div
+                                key={index}
+                                className="p-5 mb-4 bg-airbnb text-white rounded-xl opacity-80"
+                                >
+                                    {error}
+
+                                </div>
+                            )
+                        })}
                         <CustomButton
                         label="Previous"
                         className='mb-2 bg-black hover:bg-gray-800'
@@ -226,7 +244,7 @@ const AddPropertyModal=()=>{
                         />
                         <CustomButton
                         label="Submit"
-                        onClick={()=>console.log('submit')}
+                        onClick={submitForm}
                         />
                     </>
                     )}
