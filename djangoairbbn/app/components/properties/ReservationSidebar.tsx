@@ -1,47 +1,141 @@
+'use client';
+
+import { useState,useEffect } from "react";
+import {Range} from 'react-date-range';
+import {differenceInDays, eachDayOfInterval,format} from "date-fns";
+import apiService from "@/app/services/apiService";
+import DatePicker from "../forms/Calendar";
+import useLoginModal from "@/app/hooks/useLoginModal";
+
+
+const initialDateRange={
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection'
+}
+
 export type Property={
     id:string;
+    guests:number;
     price_per_night: number;
 }
 
 interface ReservationSidebarProps {
+    userId: string | null,
     property:Property
 }
 
 const ReservationSidebar:React.FC<ReservationSidebarProps>= ({
-    property
+    property,
+    userId
 }) => {
+
+    const loginModal= useLoginModal();
+    const [nights, setNights]=useState<number>(1);
+    const [dateRange,setDateRange]=useState<Range>(initialDateRange);
+    const [minDate,setMinDate]=useState<Date>(new Date());
+    const [guests, setGuests]=useState<string>('1');
+
+    const performBooking=async()=>{
+        if(userId ){
+            if(dateRange.startDate && dateRange.endDate){
+                const formData=new FormData();
+                formData.append('guests', guests);
+                formData.append('start_date',format(dateRange.startDate, 'yyyy-MM-dd'));
+                formData.append('end_date',format(dateRange.endDate, 'yyyy-MM-dd'));
+                formData.append('number_of_nights', nights.toString());
+                formData.append('total_price', total.toString());
+
+                const response=await apiService.post(`/api/properties/${property.id}/book/`, formData);
+                if(response.success){
+                    console.log('Booking ! :) ')
+                }else{
+                    console.log("Error... :(")
+                }
+            }
+        }else{
+            loginModal.open();
+        }
+    }
+
+
+    const _setDateRange = (selection: any)=>{
+        const newStartDate=new Date(selection.startDate);
+        const newEndDate= new Date(selection.endDate);
+
+        if (newEndDate <= newStartDate){
+            newEndDate.setDate(newStartDate.getDate()+1)
+        }
+
+        setDateRange({
+            ...dateRange,
+            startDate:newStartDate,
+            endDate:newEndDate,
+        })
+        const dayCount = differenceInDays(newEndDate, newStartDate);
+        setNights(dayCount);
+    }
+
+    const guestsRange=Array.from({length: property.guests}, (_, index )=> index + 1);
+    let fee=0;
+    let total=0;
+    const dayCount =
+    dateRange.startDate && dateRange.endDate
+        ? differenceInDays(
+            dateRange.endDate,
+            dateRange.startDate
+          )
+        : 0;
+
+    if(dayCount && property.price_per_night){
+        fee =
+        dayCount* property.price_per_night / 100* 5
+        total=property.price_per_night*dayCount+fee
+    }else{
+        fee=property.price_per_night/100 * 5
+        total=property.price_per_night+fee
+    }
+
     return(
         <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl">
             <h2 className="mb-5 text-2xl">${property.price_per_night} per night</h2>
 
+            <DatePicker
+            value={dateRange}
+            onChange={(value)=>_setDateRange(value.selection)}
+            />
+
             <div className="mb-6 p-3 border border-gray-400 rounded-xl">
                 <label className="block font-bold text-xs">Guests</label>
-                <select className="w-full -ml-1 text-xm">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <select 
+                    value={guests}
+                    onChange={(e)=> setGuests(e.target.value)}
+                    className="w-full -ml-1 text-xm">
+                    {guestsRange.map(number => (
+                        <option key={number} value={number}>{number}</option>
+                    ))}
                 </select>
             </div>
-            <div className="w-full mb-6 py-6 hover:bg-airbnbDark text-center text-white bg-airbnb rounded-xl">
+            <div
+                onClick={performBooking}
+                className="w-full mb-6 py-6 hover:bg-airbnbDark text-center text-white bg-airbnb rounded-xl">
                 Book
             </div>
 
             <div className="mb-4 flex justify-between algin-center">
-                <p>${property.price_per_night} * 4 nights</p>
-                <p>${property.price_per_night}*4</p>
+                <p>${property.price_per_night} * {nights} nights</p>
+                <p>${property.price_per_night}*{nights}</p>
             </div>
 
             <div className="mb-4 flex justify-between algin-center">
                 <p>Djangoairbnb fees</p>
-                <p>$40</p>
+                <p>$ {fee}</p>
             </div>
             <hr/>
 
             <div className="mt-4 font-bold flex justify-between algin-center">
                 <p>Total</p>
-                <p>$ {property.price_per_night*4}</p>
+                <p>$ {total}</p>
             </div>
         </aside>
     )

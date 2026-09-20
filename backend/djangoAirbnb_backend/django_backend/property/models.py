@@ -24,3 +24,17 @@ class Property(models.Model):
             # self.image.name gives the relative path within the bucket, e.g. "uploads/properties/beach1.avif"
             return f"https://npqwruxizyiyrjentlpi.supabase.co/storage/v1/object/public/{settings.AWS_STORAGE_BUCKET_NAME}/{self.image.name}"
         return None
+
+
+
+
+class Reservation(models.Model):
+    id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    property=models.ForeignKey(Property, related_name='reservations', on_delete=models.CASCADE)
+    start_date= models.DateField()
+    end_date=models.DateField()
+    number_of_nights=models.IntegerField()
+    guests=models.IntegerField()
+    total_price=models.FloatField()
+    created_by=models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now_add=True)
