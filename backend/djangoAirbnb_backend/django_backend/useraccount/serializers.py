@@ -15,6 +15,12 @@ class RegisterSerializer(BaseRegisterSerializer):
     def validate_username(self, username):
         return None
 
+    def save(self, request):
+        user = super().save(request)
+        user.name = self.validated_data.get('email', '').split('@')[0]
+        user.save(update_fields=['name'])
+        return user
+
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
