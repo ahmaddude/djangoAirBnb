@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'corsheaders',
     'storages',
+    'chat',
 ]
 
 AWS_ACCESS_KEY_ID = os.environ.get('supabase_access_key_id')
