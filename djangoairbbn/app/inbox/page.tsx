@@ -1,14 +1,44 @@
-import Conversation from "../components/inbox/conversations";
 
-const InboxPage=()=>{
+import Conversation from "../components/inbox/conversations";
+import apiService from "../services/apiService";
+//import React,{useState,useEffect} from 'react'
+import { getUserId } from "../lib/actions";
+
+export type UserType={
+    id: string;
+    name:string;
+    avatar_url:string;
+}
+
+export type ConversationType={
+    id:string;
+    users: UserType[];
+}
+
+const InboxPage=async()=>{
+    const userId=await getUserId();
+
+    if(!userId){
+        return(
+            <main className="max-w-375 max-auto px-6 py-12">
+                <p>You need to be authenticated</p>
+            </main>
+        )
+    }
+
+    const conversations=await apiService.get('/api/chat/')
+
     return(
         <main className="max-w-375 mx-auto px-6 pb-6 space-y-4">
             <h1 className="my-6 text-2xl">Inbox</h1>
-
-            <Conversation/>
-            <Conversation/>
-            <Conversation/>
-
+            {conversations?.map((conversation:ConversationType)=>{
+                return(
+                    <Conversation
+                    conversation={conversation}
+                    userId={userId}
+                    key={conversation.id}/>
+                )
+            })}
             </main>
         )
 
