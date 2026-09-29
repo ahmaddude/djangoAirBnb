@@ -8,6 +8,7 @@ import { UserType } from "@/app/inbox/page";
 
 interface ConversationDetailProps{
 conversation: ConversationType;
+messages:MessageType[];
 userId:string;
 token:string;
 }
@@ -15,6 +16,7 @@ token:string;
 const ConversationDetail:React.FC<ConversationDetailProps>=({
     conversation,
     userId,
+    messages,
     token
 })=>{
         const messagesDiv = useRef(null);
@@ -32,6 +34,7 @@ const ConversationDetail:React.FC<ConversationDetailProps>=({
                 messagesDiv.current.scrollTop=messagesDiv.current.scrollheight;
             }
         }
+
 
         useEffect(()=>{
             console.log("Connection state changed", ReadyState);
@@ -75,11 +78,19 @@ const ConversationDetail:React.FC<ConversationDetailProps>=({
         <><div 
         ref={messagesDiv}
         className="max-h-100 overflow-auto flex flex-col sapace-y-4">
-            
+            {messages.map((message, index)=>(
+                <div
+                    key={index}
+                    className={`w-[88%]  py-2 px-4 mb-3 rounded-xl ${message.created_by.name == myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
+                    >
+                <p className="font-bold text-gray-500">{message.created_by.name}</p>
+                <p>{message.body}</p>
+                    </div>
+            ))}
             {realtimeMessages.map((message, index)=>(
                 <div
                     key={index}
-                    className={`w-[88%]  py-2 px-4 rounded-xl ${message.name === myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
+                    className={`w-[88%]  py-2 px-4 rounded-xl ${message.name == myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
                     >
                 <p className="font-bold text-gray-500">{message.name}</p>
                 <p>{message.body}</p>

@@ -35,6 +35,7 @@ const ConversationPage=async({params}: {params:Promise<{id:string}>})=>{
                 <ConversationDetail
                     userId={userId}
                     token={token}
+                    messages={conversation.messages}
                     conversation={conversation.conversation}/>
             </main>
         )

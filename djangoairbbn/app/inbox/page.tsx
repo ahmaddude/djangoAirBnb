@@ -33,7 +33,7 @@ const InboxPage=async()=>{
             <h1 className="my-6 text-2xl">Inbox</h1>
             {conversations?.map((conversation:ConversationType)=>{
                 return(
-                    <Conversation
+<Conversation
                     conversation={conversation}
                     userId={userId}
                     key={conversation.id}/>

@@ -17,11 +17,13 @@ const ConversationPage = async ({params}: {params: Promise<{id:string}>}) => {
 
     const res = await apiService.get(`/api/chat/${id}/`);
     const conversation = res.conversation;
+    const messages = res.messages;
 
     return(
         <main className="max-w-375 mx-auto px-6 pb-6 space-y-4">
         <ConversationDetail
             userId={userId}
+            messages={messages}
             token={token}
             conversation={conversation}/>
         </main>
