@@ -71,8 +71,7 @@ const AddPropertyModal=()=>{
             
             if(response.success){
                 console.log('SUCCESS ;P');
-                router.push('/');
-
+                router.push(`/?added=${Date.now()}`);
                 addPropertyModal.close();
             }else{
                 console.log('Error :(')
