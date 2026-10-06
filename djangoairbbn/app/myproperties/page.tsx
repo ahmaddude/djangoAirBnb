@@ -1,12 +1,20 @@
 import { getUserId } from "../lib/actions";
 import PropertyList from "../components/properties/PropertyList";
+import MyDetails from "../components/MyDetails";
 
 
 const MyPropertiesPage=async ()=>{
     const userId=await getUserId();
     return(
         <main className="max-w-375 mx-auto px-6 pb-6">
-            <h1 className="my-6 text-2xl">My properties</h1>
+            <h1 className="my-6 text-2xl">My Profile page</h1>
+            <div className="w-full flex justify-center">
+            <div className="w-full max-w-sm">
+                <MyDetails myId={userId} />
+            </div>
+            </div>
+            
+                    <h1 className="my-6 text-2xl">Properties</h1>
 
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-6">
                     <PropertyList

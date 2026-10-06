@@ -49,6 +49,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     @property
     def avatar_url(self):
         if self.avatar:
+            if str(self.avatar.name).startswith('http'):
+                return self.avatar.name
             # self.image.name gives the relative path within the bucket, e.g. "uploads/properties/beach1.avif"
             return f"https://npqwruxizyiyrjentlpi.supabase.co/storage/v1/object/public/{settings.AWS_STORAGE_BUCKET_NAME}/{self.avatar.name}"
         return None

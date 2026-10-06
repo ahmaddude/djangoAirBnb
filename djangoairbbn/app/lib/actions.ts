@@ -7,7 +7,7 @@ export async function handleRefresh(){
     const cookieStore = await cookies();
     const refreshToken=await getRefreshToken();
 
-    const token=await fetch('https://localhost:8000/api/auth/token/refresh/',{
+    const token=await fetch('http://localhost:8000/api/auth/token/refresh/',{
         method:'POST',
         body:JSON.stringify({
             refresh:refreshToken
@@ -56,7 +56,7 @@ export async function handleLogin(userId:string,accessToken:string,refreshToken:
         maxAge:60*60,
         path:'/'
     });
-    cookieStore.set('session_refreshToken',refreshToken,{
+    cookieStore.set('session_refresh_token',refreshToken,{
         httpOnly:true,
         secure:process.env.NODE_ENV=='production',
         maxAge:60*60*24*7 ,
@@ -79,11 +79,8 @@ export async function getUserId(){
 }
 
 export async function getAccessToken(){
-    let accessToken = (await cookies()).get('session_access_token')?.value;
-    if(!accessToken){
-        accessToken=await handleRefresh();
-    }
-    return accessToken;
+    const accessToken = (await cookies()).get('session_access_token')?.value;
+    return accessToken ?? null;
 }
 
 export async function getRefreshToken(){

@@ -22,8 +22,11 @@ class RegisterSerializer(BaseRegisterSerializer):
         return user
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    properties_count = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields=(
-            'id','name','avatar_url'
+            'id','name','avatar_url','properties_count'
         )
+    def get_properties_count(self, obj):
+        return obj.properties.count()

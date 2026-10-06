@@ -22,6 +22,8 @@ class Property(models.Model):
     @property
     def image_url(self):
         if self.image:
+            if str(self.image.name).startswith('http'):
+                return self.image.name
             # self.image.name gives the relative path within the bucket, e.g. "uploads/properties/beach1.avif"
             return f"https://npqwruxizyiyrjentlpi.supabase.co/storage/v1/object/public/{settings.AWS_STORAGE_BUCKET_NAME}/{self.image.name}"
         return None

@@ -1,19 +1,31 @@
-import { getAccessToken } from "../lib/actions";
+import { getAccessToken, handleRefresh } from "../lib/actions";
 
 const apiService={
     get: async function(url: string): Promise<any>{
         console.log('get',url);
 
-        const token=await getAccessToken();
+        let token=await getAccessToken();
+
+        const doFetch = (token:string | null) => fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+            method:'GET',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${token}`
+            }
+        })
 
         return new Promise((resolve,reject)=>{
-            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
-                method:'GET',
-                headers:{
-                    'Accept':'application/json',
-                    'Content-Type':'application/json',
-                    'Authorization':`Bearer ${token}`
+            doFetch(token)
+            .then(async response => {
+                if (response.status === 401) {
+                    const newToken = await handleRefresh();
+                    if (newToken) {
+                        return doFetch(newToken);
+                    }
+                    return response;
                 }
+                return response;
             })
             .then(async response => {
                 const text = await response.text();
@@ -34,14 +46,27 @@ const apiService={
 
     post: async function(url: string,data:any):Promise<any>{
         console.log('post ', url, data);
-        const token=await getAccessToken();
+        let token=await getAccessToken();
+
+        const doFetch = (token:string | null) => fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+            method:'POST',
+            body:data,
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        })
+
         return new Promise((resolve,reject)=>{
-            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
-                method:'POST',
-                body:data,
-                headers:{
-                    'Authorization':`Bearer ${token}`
+            doFetch(token)
+            .then(async response => {
+                if (response.status === 401) {
+                    const newToken = await handleRefresh();
+                    if (newToken) {
+                        return doFetch(newToken);
+                    }
+                    return response;
                 }
+                return response;
             })
             .then(response =>response.json())
              .then((json)=>{
