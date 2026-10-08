@@ -14,3 +14,5 @@ RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/ap
 RUN pip install -r requirements.txt
 
 COPY . .
+ENV PORT=10000
+CMD cd django_backend && daphne -b 0.0.0.0 -p ${PORT} django_backend.asgi:application
