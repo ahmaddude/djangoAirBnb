@@ -15,4 +15,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 ENV PORT=10000
-CMD cd django_backend && daphne -b 0.0.0.0 -p ${PORT} django_backend.asgi:application
+ENV PYTHONPATH=/usr/src/app/django_backend
+CMD daphne -b 0.0.0.0 -p ${PORT} asgi:application
