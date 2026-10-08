@@ -47,12 +47,7 @@ const ReservationSidebar:React.FC<ReservationSidebarProps>= ({
                 formData.append('number_of_nights', nights.toString());
                 formData.append('total_price', total.toString());
 
-                const response=await apiService.post(`/api/properties/${property.id}/book/`, formData);
-                if(response.success){
-                    console.log('Booking ! :) ')
-                }else{
-                    console.log("Error... :(")
-                }
+                await apiService.post(`/api/properties/${property.id}/book/`, formData);
             }
         }else{
             loginModal.open();

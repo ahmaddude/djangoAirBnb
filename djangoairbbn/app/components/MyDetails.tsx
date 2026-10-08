@@ -14,7 +14,6 @@ const MyDetails=({myId}:{myId:string | null})=>{
     useEffect(()=>{
         if(!myId) return;
         apiService.get(`/api/auth/${myId}/`).then((res) => {
-        console.log(res);
         setMe(res.data ?? res);
 });
     },[myId])
@@ -33,8 +32,7 @@ const MyDetails=({myId}:{myId:string | null})=>{
         setMe((prev: any) => ({ ...prev, avatar_url: res.avatar_url ?? res.data?.avatar_url }));
         setAvatar(null);
         }
-        catch (err) {
-        console.error('Avatar upload failed', err);
+        catch {
         setAvatar(null);                        
         }
         finally {

@@ -3,8 +3,6 @@ import { API_HOST } from "../lib/config";
 
 const apiService={
     get: async function(url: string): Promise<any>{
-        console.log('get',url);
-
         let token=await getAccessToken();
 
         const doFetch = (token:string | null) => fetch(`${API_HOST}${url}`,{
@@ -32,10 +30,8 @@ const apiService={
                 const text = await response.text();
                 try {
                     const json = JSON.parse(text);
-                    console.log('Response:', json);
                     resolve(json);
                 } catch {
-                    console.log('Non-JSON response:', text);
                     resolve({ error: text });
                 }
              })
@@ -46,7 +42,6 @@ const apiService={
     },
 
     post: async function(url: string,data:any):Promise<any>{
-        console.log('post ', url, data);
         let token=await getAccessToken();
 
         const doFetch = (token:string | null) => fetch(`${API_HOST}${url}`,{
@@ -71,8 +66,6 @@ const apiService={
             })
             .then(response =>response.json())
              .then((json)=>{
-                console.log('Response:',json);
-
                 resolve(json);
              })
              .catch((error=>{
@@ -82,7 +75,6 @@ const apiService={
     },
 
     postWithoutToken: async function(url: string,data:any):Promise<any>{
-        console.log('post ', url, data);
         return new Promise((resolve,reject)=>{
             fetch(`${API_HOST}${url}`,{
                 method:'POST',
@@ -94,8 +86,6 @@ const apiService={
             })
             .then(response =>response.json())
              .then((json)=>{
-                console.log('Response:',json);
-
                 resolve(json);
              })
              .catch((error=>{

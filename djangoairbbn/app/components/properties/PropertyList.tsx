@@ -39,11 +39,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
         const tmpProperties=properties.map((property:PropertyType)=>{
             if (property.id==id){
                 property.is_favorite= is_favorite
-                if(is_favorite){
-                    console.log('added to favorite proeprties list')
-                }else{
-                    console.log('removed from favorite properties list')
-                }
             }
             return property;
         } )
@@ -83,8 +78,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
                 }
 
                 if(urlQuery.length){
-                    console.log('Query:', urlQuery);
-
                     urlQuery='?'+ urlQuery.substring(1);
                     url+= urlQuery;
                 }

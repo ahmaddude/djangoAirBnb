@@ -4,7 +4,6 @@ import {cookies} from 'next/headers';
 import { API_HOST } from './config';
 
 export async function handleRefresh(){
-    console.log('handleRefresh');
     const cookieStore = await cookies();
     const refreshToken=await getRefreshToken();
 
@@ -20,8 +19,6 @@ export async function handleRefresh(){
     })
     .then(response=> response.json())
     .then((json)=>{
-        console.log('Response-Refresh:',json)
-
         if(json.access){
             cookieStore.set('session_access_token',json.access,{
             httpOnly:true,
@@ -35,8 +32,6 @@ export async function handleRefresh(){
         }
     })
     .catch((error)=>{
-        console.log('error',error);
-
         resetAuthCookies();
     })
 

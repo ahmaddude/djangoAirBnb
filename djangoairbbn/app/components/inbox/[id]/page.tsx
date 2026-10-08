@@ -28,7 +28,6 @@ const ConversationPage=async({params}: {params:Promise<{id:string}>})=>{
         }
 
         const conversation=await apiService.get(`/api/chat/${id}/`)
-        console.log('convo',conversation)
         return(
             <main className="max-w-375 mx-auto px-6 pb-6">
                 <ConversationDetail
