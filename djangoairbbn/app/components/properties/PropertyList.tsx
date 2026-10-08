@@ -101,8 +101,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
         }));
     };
 
-        apiService.get('/api/properties')
-
         getProperties();
     },[category, searchModal.query,params]);
 

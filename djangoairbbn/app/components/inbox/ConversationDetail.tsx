@@ -5,6 +5,7 @@ import { ConversationType } from "@/app/inbox/page";
 import { useEffect,useState,useRef } from "react";
 import { MessageType } from "./[id]/page";
 import { UserType } from "@/app/inbox/page";
+import { WS_HOST } from "@/app/lib/config";
 
 interface ConversationDetailProps{
 conversation: ConversationType;
@@ -24,7 +25,7 @@ const ConversationDetail:React.FC<ConversationDetailProps>=({
         const otherUser=conversation.users?.find((user)=> user.id!= userId)
         const [newMessage,setNewMessage]=useState('');
         const [realtimeMessages,setRealtimeMessages]=useState<MessageType[]>([])
-        const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(`ws://127.0.0.1:8000/ws/${conversation.id}/?token=${token}`,{
+        const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(`${WS_HOST}/ws/${conversation.id}/?token=${token}`,{
             share: false,
             shouldReconnect:()=> true,
         },)

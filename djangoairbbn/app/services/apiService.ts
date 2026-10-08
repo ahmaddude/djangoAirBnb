@@ -1,4 +1,5 @@
 import { getAccessToken, handleRefresh } from "../lib/actions";
+import { API_HOST } from "../lib/config";
 
 const apiService={
     get: async function(url: string): Promise<any>{
@@ -6,7 +7,7 @@ const apiService={
 
         let token=await getAccessToken();
 
-        const doFetch = (token:string | null) => fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+        const doFetch = (token:string | null) => fetch(`${API_HOST}${url}`,{
             method:'GET',
             headers:{
                 'Accept':'application/json',
@@ -48,7 +49,7 @@ const apiService={
         console.log('post ', url, data);
         let token=await getAccessToken();
 
-        const doFetch = (token:string | null) => fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+        const doFetch = (token:string | null) => fetch(`${API_HOST}${url}`,{
             method:'POST',
             body:data,
             headers:{
@@ -83,7 +84,7 @@ const apiService={
     postWithoutToken: async function(url: string,data:any):Promise<any>{
         console.log('post ', url, data);
         return new Promise((resolve,reject)=>{
-            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+            fetch(`${API_HOST}${url}`,{
                 method:'POST',
                 body:data,
                 headers:{
