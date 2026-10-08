@@ -7,7 +7,7 @@ const ConversationPage = async ({params}: {params: Promise<{id:string}>}) => {
     const userId = await getUserId();
     const token = await getAccessToken();
 
-    if (!userId) {
+    if (!userId || !token) {
         return (
             <main className="max-w-375 mx-auto px-6 py-12">
                 <p>You need to be authenticated</p>

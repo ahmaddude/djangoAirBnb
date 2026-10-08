@@ -1,6 +1,5 @@
 import { getUserId } from "@/app/lib/actions";
 import ConversationDetail from "../ConversationDetail";
-import React,{useState,useEffect} from "react";
 import apiService from "@/app/services/apiService";
 import { UserType } from "@/app/inbox/page";
 import { getAccessToken } from "@/app/lib/actions";
