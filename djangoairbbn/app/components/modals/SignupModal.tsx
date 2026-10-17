@@ -25,6 +25,7 @@ const SignupModal =()=>{
         if(response.access){
             await handleLogin(response.user.pk,response.access,response.refresh);
             signupModal.close();
+            // eslint-disable-next-line @next/next/no-location-assign-relative-destination
             window.location.href='/'
         }
         else{
