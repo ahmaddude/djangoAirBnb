@@ -64,7 +64,7 @@ export async function resetAuthCookies(){
     const cookieStore = await cookies();
     cookieStore.set('session_userid','');
     cookieStore.set('session_access_token','');
-    cookieStore.set('session_refreshToken','');
+    cookieStore.set('session_refresh_token','');
 }
 
 

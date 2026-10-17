@@ -1,7 +1,6 @@
 'use client'
 
 import {useState} from "react";
-import {useRouter} from "next/navigation"
 import useSignupModal from "@/app/hooks/useSignupModal";
 import Modal from "./Modal";
 import CustomButton from "../forms/CustomButton";
@@ -9,7 +8,6 @@ import apiService from "@/app/services/apiService";
 import { handleLogin } from "@/app/lib/actions";
 
 const SignupModal =()=>{
-    const router = useRouter();
     const signupModal=useSignupModal();
     const [email,setEmail]=useState('');
     const [password1,setPassword1]=useState('');
@@ -25,9 +23,9 @@ const SignupModal =()=>{
         const response=await apiService.postWithoutToken('/api/auth/register/',JSON.stringify(formData));
 
         if(response.access){
-            handleLogin(response.user.pk,response.access,response.refresh);
+            await handleLogin(response.user.pk,response.access,response.refresh);
             signupModal.close();
-            router.push('/')
+            window.location.href='/'
         }
         else{
             const tmpError:string[]=Object.values(response).map((error:any)=>{

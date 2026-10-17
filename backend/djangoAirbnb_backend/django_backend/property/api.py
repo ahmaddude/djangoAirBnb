@@ -13,12 +13,17 @@ from useraccount.models import User
 @permission_classes([])
 def properties_list(request):
 
-    try:
-        token=request.META['HTTP_AUTHORIZATION'].split('Bearer ')[1]
-        token=AccessToken(token)
-        user_id=token.payload['user_id']
-        user=User.objects.get(pk=user_id)
-    except Exception as e:
+    auth_header=request.META.get('HTTP_AUTHORIZATION','')
+    token_str=auth_header.split('Bearer ')[1] if auth_header.startswith('Bearer ') else ''
+
+    if token_str and token_str != 'null':
+        try:
+            token=AccessToken(token_str)
+            user_id=token.payload['user_id']
+            user=User.objects.get(pk=user_id)
+        except Exception:
+            return JsonResponse({'detail':'Token is invalid or expired'}, status=401)
+    else:
         user=None
 
 

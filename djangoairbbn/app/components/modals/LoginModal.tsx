@@ -2,7 +2,6 @@
 
 import modal from "./Modal";
 import {useState} from "react";
-import { useRouter } from "next/navigation";
 import apiService from "@/app/services/apiService";
 import { handleLogin } from "@/app/lib/actions";
 import useLoginModal from "@/app/hooks/useLoginModal";
@@ -10,7 +9,6 @@ import Modal from "./Modal";
 import CustomButton from "../forms/CustomButton";
 
 const LoginModal =()=>{
-    const router =useRouter();
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
     const [errors,setErrors]=useState<string[]>([]);
@@ -24,9 +22,9 @@ const LoginModal =()=>{
         const response=await apiService.postWithoutToken('/api/auth/login/',JSON.stringify(formData))
 
         if(response.access){
-            handleLogin(response.user.pk,response.access,response.refresh);
+            await handleLogin(response.user.pk,response.access,response.refresh);
             loginModal.close();
-            router.push('/')
+            window.location.href='/'
         }
         else{
             setErrors(response.non_field_errors);

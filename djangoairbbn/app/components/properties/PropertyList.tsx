@@ -84,8 +84,13 @@ const PropertyList: React.FC<PropertyListProps> = ({
             }
         const tmpProperties=await apiService.get(url)
 
+        if(!Array.isArray(tmpProperties.data)){
+            setProperties([])
+            return
+        }
+
         setProperties(tmpProperties.data.map((property:PropertyType)=>{
-            if(tmpProperties.favorites.includes(property.id)){
+            if(tmpProperties.favorites?.includes(property.id)){
                 property.is_favorite=true
             }else{
                 property.is_favorite=false
